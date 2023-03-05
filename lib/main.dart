@@ -1,9 +1,10 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'firebase_options.dart';
-import 'screens/chat_screen.dart';
+import 'screens/auth_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,9 +23,35 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Chat App',
-      home: ChatScreen(),
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) {
+        ColorScheme lightColorScheme;
+        ColorScheme darkColorScheme;
+
+        if (lightDynamic != null && darkDynamic != null) {
+          lightColorScheme = lightDynamic.harmonized().copyWith();
+          darkColorScheme = darkDynamic.harmonized().copyWith();
+        } else {
+          lightColorScheme = ColorScheme.fromSwatch();
+          darkColorScheme = ColorScheme.fromSwatch(
+            brightness: Brightness.dark,
+          );
+        }
+
+        return MaterialApp(
+          title: 'Chat App',
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme,
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme,
+          ),
+          themeMode: ThemeMode.system,
+          home: const AuthScreen(),
+        );
+      },
     );
   }
 }
