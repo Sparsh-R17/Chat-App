@@ -6,8 +6,14 @@ class AuthForm extends StatefulWidget {
     String password,
     String username,
     bool isLogin,
+    BuildContext context,
   ) submitForm;
-  const AuthForm({super.key, required this.submitForm});
+  final bool isLoading;
+  const AuthForm({
+    super.key,
+    required this.submitForm,
+    required this.isLoading,
+  });
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -26,10 +32,11 @@ class _AuthFormState extends State<AuthForm> {
     if (formValid) {
       _formKey.currentState!.save();
       widget.submitForm(
-        _userEmail,
-        _userPassword,
-        _userName,
+        _userEmail.trim(),
+        _userPassword.trim(),
+        _userName.trim(),
         _isLogin,
+        context,
       );
     } else {
       return;
@@ -110,33 +117,36 @@ class _AuthFormState extends State<AuthForm> {
                   const SizedBox(
                     height: 12,
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.25,
-                    child: FilledButton(
-                      onPressed: _formValidation,
+                  if (widget.isLoading) const CircularProgressIndicator(),
+                  if (!widget.isLoading)
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      child: FilledButton(
+                        onPressed: _formValidation,
+                        child: Text(
+                          _isLogin ? 'Login' : 'Signup',
+                        ),
+                      ),
+                    ),
+                  if (!widget.isLoading)
+                    TextButton(
+                      style: const ButtonStyle(
+                        splashFactory: NoSplash.splashFactory,
+                        overlayColor: MaterialStatePropertyAll(
+                          Colors.transparent,
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isLogin = !_isLogin;
+                        });
+                      },
                       child: Text(
-                        _isLogin ? 'Login' : 'Signup',
+                        _isLogin
+                            ? 'Create new Account'
+                            : 'Already have an account',
                       ),
                     ),
-                  ),
-                  TextButton(
-                    style: const ButtonStyle(
-                      splashFactory: NoSplash.splashFactory,
-                      overlayColor: MaterialStatePropertyAll(
-                        Colors.transparent,
-                      ),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isLogin = !_isLogin;
-                      });
-                    },
-                    child: Text(
-                      _isLogin
-                          ? 'Create new Account'
-                          : 'Already have an account',
-                    ),
-                  ),
                 ],
               ),
             ),
