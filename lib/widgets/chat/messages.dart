@@ -32,6 +32,8 @@ class Messages extends StatelessWidget {
             return MessageBubble(
               msg: chatDocs[index].data()['text'],
               isMe: chatDocs[index].data()['userId'] == user!.uid,
+              username: chatDocs[index].data()['username'],
+              userimage: chatDocs[index].data()['userImage'],
               msgKey: ValueKey(
                 chatDocs[index].id,
               ),

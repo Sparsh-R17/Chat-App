@@ -43,11 +43,11 @@ class ChatScreen extends StatelessWidget {
         ],
       ),
       body: Column(
-        children: [
+        children: const [
           Expanded(
             child: Messages(),
           ),
-          const NewMessage(),
+          NewMessage(),
         ],
       ),
     );
