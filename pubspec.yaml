@@ -33,6 +33,7 @@ dependencies:
   dynamic_color: ^1.6.2
   firebase_auth: ^4.2.9
   firebase_core: ^2.7.0
+  firebase_messaging: ^14.3.0
   firebase_storage: ^11.0.15
   flutter:
     sdk: flutter
