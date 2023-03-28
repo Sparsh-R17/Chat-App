@@ -1,6 +1,6 @@
 # Chat App
 
-A new Flutter project.
+Real Time chatting application. 
 
 ## Getting Started
 
